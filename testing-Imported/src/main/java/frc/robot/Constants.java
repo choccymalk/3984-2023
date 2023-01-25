@@ -10,6 +10,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.robot.lib.config.SwerveModuleConstants;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -24,7 +25,7 @@ public final class Constants {
         public static final double stickDeadband = 0.1;
         public static final boolean invertGyro = false;
 
-        /* FIXME: Drivetrain COnstants */
+        /* Drivetrain COnstants */
         public static final double trackWidth = Units.inchesToMeters(21.73);
         public static final double wheelBase = Units.inchesToMeters(21.73);
         public static final double wheelDiameter = Units.inchesToMeters(4.0);
@@ -33,8 +34,8 @@ public final class Constants {
         public static final double openLoopRamp = 0.25;
         public static final double closedLoopRamp = 0.0;
 
-        public static final double driveGearRatio = (6.75 / 1.0); // 6.75:1
-        public static final double angleGearRatio = (12.8 / 1.0); // 12.8:1
+        public static final double driveGearRatio = (6.75 / 1.0); // TODO, L1, L2, or L3 6.75:1
+        public static final double angleGearRatio = ((150.0 / 7.0)/1.0 /*12.8 / 1.0*/ ); // 12.8:1
 
         public static final SwerveDriveKinematics swerveKinematics =
             new SwerveDriveKinematics(
@@ -50,7 +51,7 @@ public final class Constants {
         public static final int angleContinuousCurrentLimit = 20;
         public static final int driveContinuousCurrentLimit = 80;
 
-        /* Angle Motor PID Values */
+        /* TODO tune Angle Motor PID Values */
         public static final double angleKP = 0.01;
         public static final double angleKI = 0.0;
         public static final double angleKD = 0.0;
