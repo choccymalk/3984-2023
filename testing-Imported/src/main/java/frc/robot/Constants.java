@@ -25,6 +25,7 @@ public final class Constants {
         public static final double stickDeadband = 0.1;
         public static final boolean invertGyro = false;
 
+
         /* Drivetrain COnstants */
         public static final double trackWidth = Units.inchesToMeters(21.73);
         public static final double wheelBase = Units.inchesToMeters(21.73);
@@ -128,6 +129,14 @@ public final class Constants {
         public static final Rotation2d angleOffset = Rotation2d.fromDegrees(67.939453125);
         public static final SwerveModuleConstants constants =
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
+        }
+        public static final class armShoulder {
+        public static final int rotMotorID = 18; //TODO
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(100); //TODO
+        }
+        public static final class armJoint {
+            public static final int rotMotorID = 19; //TODO
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(100); //TODO
         }
     }
 
