@@ -55,6 +55,21 @@ public class ArmSubsystem extends SubsystemBase{
         int AngleJoint = 0;
         Rotation2d[] angles = new Rotation2d[2];
         //Implement get angle code here Jouji
+        double arm1Length = 1;
+        double arm2Length = 1;
+        double hypotenuse = Math.hypot(x,y);
+        AngleJoint = (int)Math.acos(-(Math.pow(hypotenuse,2)-(Math.pow(arm1Length,2)+Math.pow(arm2Length,2)))/(2*arm1Length+arm2Length));
+        double theta2 = Math.acos(-(Math.pow(arm2Length,2)-(Math.pow(arm1Length,2)+Math.pow(hypotenuse,2)))/(2*arm1Length+hypotenuse));
+        double j = Math.atan(y/x);
+        double k = theta2-j;
+        AngleShoulder = (int)(90-k);
+
+
+
+
+
+        
+
 
 
         //convert angle to radians
