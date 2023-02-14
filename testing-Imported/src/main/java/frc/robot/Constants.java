@@ -52,9 +52,9 @@ public final class Constants {
         public static final int angleContinuousCurrentLimit = 20;
         public static final int driveContinuousCurrentLimit = 80;
         /* TODO Arm Motor PID Values */
-        public static final double sarmKP = 0.01;
-        public static final double sarmKI = 0.005;
-        public static final double sarmKD = 0.0025;
+        public static final double sarmKP = 0.001;
+        public static final double sarmKI = 0.000;
+        public static final double sarmKD = 0.000;
         public static final double sarmKFF = 0;
 
         public static final double jarmKP = 0.01;
@@ -142,14 +142,14 @@ public final class Constants {
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
         public static final class armShoulder {
-        public static final int rotMotorID = 18; //TODO
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(100); //TODO
+        public static final int rotMotorID = 9; 
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0); //TODO
         }
         public static final class armJoint {
-            public static final int rotMotorID = 19; //TODO
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(100); //TODO
+            public static final int rotMotorID = 10;
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0); //TODO
         }
-        public static final double[] LOWGOAL = new double[]{1, -1}; //TODO
+        public static final double[] LOWGOAL = new double[]{23, 0}; //TODO
         public static final double[] INTAKE = new double[]{1, -1}; //TODO
         public static final double[] MIDGOAL = new double[]{1, -1}; //TODO
         public static final double[] HIGHGOAL = new double[]{1, -1}; //TODO
