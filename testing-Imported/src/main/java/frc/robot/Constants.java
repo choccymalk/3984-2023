@@ -25,6 +25,7 @@ public final class Constants {
         public static final double stickDeadband = 0.1;
         public static final boolean invertGyro = false;
 
+
         /* Drivetrain COnstants */
         public static final double trackWidth = Units.inchesToMeters(21.73);
         public static final double wheelBase = Units.inchesToMeters(21.73);
@@ -50,6 +51,16 @@ public final class Constants {
         /* Swerve Current Limiting */
         public static final int angleContinuousCurrentLimit = 20;
         public static final int driveContinuousCurrentLimit = 80;
+        /* TODO Arm Motor PID Values */
+        public static final double sarmKP = 0.01;
+        public static final double sarmKI = 0.005;
+        public static final double sarmKD = 0.0025;
+        public static final double sarmKFF = 0;
+
+        public static final double jarmKP = 0.01;
+        public static final double jarmKI = 0.005;
+        public static final double jarmKD = 0.0025;
+        public static final double jarmKFF = 0;
 
         /* TODO tune Angle Motor PID Values */
         public static final double angleKP = 0.01;
@@ -130,6 +141,19 @@ public final class Constants {
         public static final SwerveModuleConstants constants =
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
+        public static final class armShoulder {
+        public static final int rotMotorID = 18; //TODO
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(100); //TODO
+        }
+        public static final class armJoint {
+            public static final int rotMotorID = 19; //TODO
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(100); //TODO
+        }
+        public static final double[] LOWGOAL = new double[]{1, -1}; //TODO
+        public static final double[] INTAKE = new double[]{1, -1}; //TODO
+        public static final double[] MIDGOAL = new double[]{1, -1}; //TODO
+        public static final double[] HIGHGOAL = new double[]{1, -1}; //TODO
+
     }
 
     public static final class AutoConstants {
