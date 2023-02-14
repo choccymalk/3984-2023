@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
@@ -36,6 +38,12 @@ public class RobotContainer {
   private final JoystickButton robotCentric =
     new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
   private final Swerve s_Swerve = new Swerve();
+  private final ArmSubsystem Armm = new ArmSubsystem();
+  private final JoystickButton Intake = new JoystickButton(driver, XboxController.Button.kA.value);
+  private final JoystickButton Low = new JoystickButton(driver, XboxController.Button.kB.value);
+  private final JoystickButton Medium = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+  private final JoystickButton High = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -45,10 +53,17 @@ public class RobotContainer {
         () -> -driver.getRawAxis(translationAxis),
         () -> -driver.getRawAxis(strafeAxis),
         () -> -driver.getRawAxis(rotationAxis),
-        () -> true /*TODO robotCentric.get()*/));
-      
+        () -> robotCentric.getAsBoolean()));
+    Armm.setDefaultCommand(
+      new Arm(
+        Armm, 
+        () -> Intake.getAsBoolean(), 
+        () -> Low.getAsBoolean(), 
+        () -> Medium.getAsBoolean(), 
+        () -> High.getAsBoolean()));
     // Configure the button bindings
     configureButtonBindings();
+    
   }
   //robotCentric.get();
   /**
@@ -58,7 +73,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
+    //zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
+    zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
   }
 
   /**
