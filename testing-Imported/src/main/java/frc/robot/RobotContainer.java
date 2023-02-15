@@ -26,7 +26,7 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Joystick driver = new Joystick(0);
+  private final Joystick driver = new Joystick(1);
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -43,7 +43,7 @@ public class RobotContainer {
   private final JoystickButton Low = new JoystickButton(driver, XboxController.Button.kB.value);
   private final JoystickButton Medium = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private final JoystickButton High = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-
+  private final JoystickButton zeroArm = new JoystickButton(driver, XboxController.Button.kStart.value);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -75,6 +75,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+    zeroArm.onTrue(new InstantCommand(() -> Armm.zero()));
   }
 
   /**

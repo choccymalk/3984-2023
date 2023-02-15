@@ -22,8 +22,8 @@ import frc.robot.Constants.Swerve.armShoulder;
 public class ArmSubsystem extends SubsystemBase{
     private CANSparkMax shoulderMotor; 
     private CANSparkMax jointMotor;
-    private RelativeEncoder EncoderShoulder;
-    private RelativeEncoder EncoderJoint;
+    public RelativeEncoder EncoderShoulder;
+    public RelativeEncoder EncoderJoint;
 
     // Initialize the goal point for the arm.
     private double[] goal = new double[2];
@@ -46,7 +46,9 @@ public class ArmSubsystem extends SubsystemBase{
         shoulderMotor = new CANSparkMax(armShoulder.rotMotorID, MotorType.kBrushless);
         jointMotor = new CANSparkMax(armJoint.rotMotorID, MotorType.kBrushless);
         EncoderShoulder = shoulderMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+        EncoderShoulder.setPosition(0);
         EncoderJoint = jointMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+        EncoderJoint.setPosition(0);
     }
     public void moveToAngle(){
         Rotation2d[] angles = new Rotation2d[2];
@@ -78,8 +80,8 @@ public class ArmSubsystem extends SubsystemBase{
         double AngleJoint = 0;
         Rotation2d[] angles = new Rotation2d[2];
         //Implement get angle code here Jouji
-        double arm1Length = 1;
-        double arm2Length = 1;
+        double arm1Length = 34;
+        double arm2Length = 23.5;
         double hypotenuse = Math.hypot(x,y);
         AngleJoint = (int)Math.acos(-(Math.pow(hypotenuse,2)-(Math.pow(arm1Length,2)+Math.pow(arm2Length,2)))/(2*arm1Length+arm2Length));
         double theta2 = Math.acos(-(Math.pow(arm2Length,2)-(Math.pow(arm1Length,2)+Math.pow(hypotenuse,2)))/(2*arm1Length+hypotenuse));
@@ -87,12 +89,15 @@ public class ArmSubsystem extends SubsystemBase{
         double k = theta2-j;
         AngleShoulder = (90-k);
         //convert angle to radians
-        angles[1] = new Rotation2d(AngleShoulder);
-        angles[2] = new Rotation2d(AngleJoint);
+        angles[0] = new Rotation2d(AngleShoulder);
+        angles[1] = new Rotation2d(AngleJoint);
         return angles;
     }
     /*************************************************/
-
+    public void zero(){
+        EncoderJoint.setPosition(0);
+        EncoderShoulder.setPosition(0);
+    }
     public void setPoint(boolean intake, boolean low, boolean medium, boolean high){
         if (intake == true){
             goal[0] = Constants.Swerve.INTAKE[0];

@@ -15,10 +15,10 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 //import edu.wpi.first.wpilibj.SPI;
 //import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 public class Swerve extends SubsystemBase {
   //private final Pigeon2 gyro1;
-
-  ADIS16448_IMU gyro;
+  ADXRS450_Gyro gyro;
   private SwerveDriveOdometry swerveOdometry;
   private SwerveModule[] mSwerveMods;
 
@@ -26,22 +26,23 @@ public class Swerve extends SubsystemBase {
 
   public Swerve() {
     //gyro1 = new Pigeon2(Constants.Swerve.pigeonID);
-    gyro = new ADIS16448_IMU();
+    gyro = new ADXRS450_Gyro();
     gyro.calibrate();
     //gyro1.configFactoryDefault();
     //SwerveModulePosition
     zeroGyro();
+    mSwerveMods =
+    new SwerveModule[] {
+      new SwerveModule(0, Constants.Swerve.Mod0.constants),
+      new SwerveModule(1, Constants.Swerve.Mod1.constants),
+      new SwerveModule(2, Constants.Swerve.Mod2.constants),
+      new SwerveModule(3, Constants.Swerve.Mod3.constants)
+    };
     swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getPositions());
     //swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), new SwerveModulePosition[]{}, getPose());
     //swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw());
 
-    mSwerveMods =
-        new SwerveModule[] {
-          new SwerveModule(0, Constants.Swerve.Mod0.constants),
-          new SwerveModule(1, Constants.Swerve.Mod1.constants),
-          new SwerveModule(2, Constants.Swerve.Mod2.constants),
-          new SwerveModule(3, Constants.Swerve.Mod3.constants)
-        };
+
 
     field = new Field2d();
     SmartDashboard.putData("Field", field);
@@ -88,7 +89,7 @@ public class Swerve extends SubsystemBase {
   }
   public SwerveModulePosition[] getPositions() {
     SwerveModulePosition[] positions = new SwerveModulePosition[4];
-    for (SwerveModule mod : mSwerveMods){
+    for (SwerveModule mod : mSwerveMods){ //FIXME Error line, null pointer exception fix me
       positions[mod.moduleNumber] = mod.getPoset();
     }
     return positions;
@@ -102,8 +103,8 @@ public class Swerve extends SubsystemBase {
 
   public Rotation2d getYaw() {
     return (Constants.Swerve.invertGyro)//FIXME ??
-        ? Rotation2d.fromDegrees(360 - gyro.getGyroAngleZ()/*gyro.getYaw()*/)
-        : Rotation2d.fromDegrees(gyro.getGyroAngleZ()/*getYaw()*/);
+        ? Rotation2d.fromDegrees(360 - gyro.getAngle()/*gyro.getYaw()*/)
+        : Rotation2d.fromDegrees(gyro.getAngle()/*getYaw()*/);
   }
 
   @Override
