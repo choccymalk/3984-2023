@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Constants;
 import frc.robot.Constants.Swerve.armJoint;
 import frc.robot.Constants.Swerve.armShoulder;
@@ -27,9 +28,19 @@ public class ArmSubsystem extends SubsystemBase{
     // Initialize the goal point for the arm.
     private double[] goal = new double[2];
     private double currAngle = 0;
-    public PIDController goToAngleShoulder = new PIDController(Constants.Swerve.sarmKP, Constants.Swerve.sarmKI, Constants.Swerve.sarmKD);
-    public PIDController goToAngleJoint = new PIDController(Constants.Swerve.jarmKP, Constants.Swerve.jarmKI, Constants.Swerve.jarmKD);
-    public ArmFeedforward Shoulderff = new ArmFeedforward(0, 0, 0, 0);
+    public PIDController goToAngleShoulder =
+     new PIDController(Constants.Swerve.sarmKP, 
+                        Constants.Swerve.sarmKI, 
+                        Constants.Swerve.sarmKD);
+    public PIDController goToAngleJoint = 
+    new PIDController(Constants.Swerve.jarmKP,
+                        Constants.Swerve.jarmKI,
+                        Constants.Swerve.jarmKD);
+    public ArmFeedforward Shoulderff = 
+    new ArmFeedforward(Constants.Swerve.sarmKS,
+                        Constants.Swerve.sarmKG, 
+                        Constants.Swerve.sarmKV, 
+                        Constants.Swerve.sarmKA);
     public ArmFeedforward Jointff = new ArmFeedforward(0, 0, 0, 0);
     public ArmSubsystem() {
         shoulderMotor = new CANSparkMax(armShoulder.rotMotorID, MotorType.kBrushless);
@@ -44,10 +55,14 @@ public class ArmSubsystem extends SubsystemBase{
         double angle = angles[0].getRadians();
         goToAngleShoulder.setSetpoint(angle);
         goToAngleShoulder.setTolerance(0.05, 0.1);
+        SmartDashboard.putNumber("Angle Goal Shoulder", angle);
+
         angle = angles[1].getRadians();
         goToAngleJoint.setSetpoint(angle);
         goToAngleJoint.setTolerance(0.05, 0.1);
-
+        SmartDashboard.putNumber("Angle Goal Shoulder", angle);
+        
+        SmartDashboard.putNumberArray("GoalPoint: ", goal);
         while (!goToAngleJoint.atSetpoint() && !goToAngleShoulder.atSetpoint()){
             shoulderMotor.setVoltage((goToAngleShoulder.calculate(EncoderShoulder.getPosition() * Math.PI - Constants.Swerve.armShoulder.angleOffset.getRadians()) 
                                     + Shoulderff.calculate(EncoderShoulder.getPosition() * Math.PI - Constants.Swerve.armShoulder.angleOffset.getRadians()
@@ -94,6 +109,9 @@ public class ArmSubsystem extends SubsystemBase{
         else if (high == true){
             goal[0] = Constants.Swerve.HIGHGOAL[0];
             goal[1] = Constants.Swerve.HIGHGOAL[1];
+        }
+        else{
+            
         }
     }
     public void periodic(){
