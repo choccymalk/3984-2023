@@ -124,6 +124,12 @@ public class ArmSubsystem extends SubsystemBase{
         double sho = EncoderShoulder.getPosition() * Math.PI;
         SmartDashboard.putNumber("ShoulderMotor", sho);
         SmartDashboard.putNumber("Joint", joi);
+        Rotation2d[] angles = this.getAngles(goal[0], goal[1]);
+        double angle = angles[0].getRadians();
+        SmartDashboard.putNumber("Angle Goal Shoulder", angle);
+        angle = angles[1].getRadians();
+        SmartDashboard.putNumber("Angle Goal Joint", angle);
+
     }
     /*public void getNewPoint(){
         goal[0] = goal[0] + 0.05;
