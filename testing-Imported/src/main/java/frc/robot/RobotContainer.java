@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -27,6 +28,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Joystick driver = new Joystick(1);
+  //private final SingleJointedArmSim armM = new Single
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -43,7 +45,7 @@ public class RobotContainer {
   private final JoystickButton Low = new JoystickButton(driver, XboxController.Button.kB.value);
   private final JoystickButton Medium = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private final JoystickButton High = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-  private final JoystickButton zeroArm = new JoystickButton(driver, XboxController.Button.kStart.value);
+  private final JoystickButton Retract = new JoystickButton(driver, XboxController.Button.kStart.value);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -60,7 +62,9 @@ public class RobotContainer {
         () -> Intake.getAsBoolean(), 
         () -> Low.getAsBoolean(), 
         () -> Medium.getAsBoolean(), 
-        () -> High.getAsBoolean()));
+        () -> High.getAsBoolean(),
+        () -> Retract.getAsBoolean()));
+        
     // Configure the button bindings
     configureButtonBindings();
     
@@ -75,7 +79,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-    zeroArm.onTrue(new InstantCommand(() -> Armm.zero()));
+
   }
 
   /**

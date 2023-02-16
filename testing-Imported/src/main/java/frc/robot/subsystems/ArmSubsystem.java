@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
-import frc.robot.Constants.Swerve.armJoint;
-import frc.robot.Constants.Swerve.armShoulder;
+import frc.robot.Constants.Swerve.arm;
+
 
 public class ArmSubsystem extends SubsystemBase{
     private CANSparkMax shoulderMotor; 
@@ -43,8 +43,8 @@ public class ArmSubsystem extends SubsystemBase{
                         Constants.Swerve.sarmKA);
     public ArmFeedforward Jointff = new ArmFeedforward(0, 0, 0, 0);
     public ArmSubsystem() {
-        shoulderMotor = new CANSparkMax(armShoulder.rotMotorID, MotorType.kBrushless);
-        jointMotor = new CANSparkMax(armJoint.rotMotorID, MotorType.kBrushless);
+        shoulderMotor = new CANSparkMax(arm.Shoulder.rotMotorID, MotorType.kBrushless);
+        jointMotor = new CANSparkMax(arm.Joint.rotMotorID, MotorType.kBrushless);
         EncoderShoulder = shoulderMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
         EncoderShoulder.setPosition(0);
         EncoderJoint = jointMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
@@ -66,11 +66,11 @@ public class ArmSubsystem extends SubsystemBase{
         
         SmartDashboard.putNumberArray("GoalPoint: ", goal);
         while (!goToAngleJoint.atSetpoint() && !goToAngleShoulder.atSetpoint()){
-            shoulderMotor.setVoltage((goToAngleShoulder.calculate(EncoderShoulder.getPosition() * Math.PI - Constants.Swerve.armShoulder.angleOffset.getRadians()) 
-                                    + Shoulderff.calculate(EncoderShoulder.getPosition() * Math.PI - Constants.Swerve.armShoulder.angleOffset.getRadians()
+            shoulderMotor.setVoltage((goToAngleShoulder.calculate(EncoderShoulder.getPosition() * Math.PI - arm.Shoulder.angleOffset.getRadians()) 
+                                    + Shoulderff.calculate(EncoderShoulder.getPosition() * Math.PI - arm.Shoulder.angleOffset.getRadians()
                                     , EncoderShoulder.getVelocity()))*.12);
-            jointMotor.setVoltage((goToAngleJoint.calculate(EncoderJoint.getPosition()*Math.PI - Constants.Swerve.armJoint.angleOffset.getRadians())
-                                    + Jointff.calculate(EncoderJoint.getPosition() * Math.PI - Constants.Swerve.armJoint.angleOffset.getRadians()
+            jointMotor.setVoltage((goToAngleJoint.calculate(EncoderJoint.getPosition()*Math.PI - arm.Joint.angleOffset.getRadians())
+                                    + Jointff.calculate(EncoderJoint.getPosition() * Math.PI - arm.Joint.angleOffset.getRadians()
                                     , EncoderJoint.getVelocity()))*.12);
         }
     }
@@ -81,13 +81,27 @@ public class ArmSubsystem extends SubsystemBase{
         Rotation2d[] angles = new Rotation2d[2];
         //Implement get angle code here Jouji
         double arm1Length = 34;
-        double arm2Length = 23.5;
-        double hypotenuse = Math.hypot(x,y);
-        AngleJoint = (int)Math.acos(-(Math.pow(hypotenuse,2)-(Math.pow(arm1Length,2)+Math.pow(arm2Length,2)))/(2*arm1Length+arm2Length));
-        double theta2 = Math.acos(-(Math.pow(arm2Length,2)-(Math.pow(arm1Length,2)+Math.pow(hypotenuse,2)))/(2*arm1Length+hypotenuse));
-        double j = Math.atan(y/x);
+        
+		double jointLength = 23.5;
+		double hypotenuse = Math.hypot(x, y);
+
+		AngleJoint = Math.pow(hypotenuse,  2) - Math.pow(arm1Length, 2) - Math.pow(jointLength, 2);
+
+		AngleJoint = AngleJoint/(-2*arm1Length*jointLength);
+
+		AngleJoint = Math.acos(AngleJoint);
+		
+        
+        double theta2 = Math.pow(jointLength,2)-Math.pow(arm1Length,2)-Math.pow(hypotenuse,2);
+
+        theta2 = theta2/(-2*arm1Length*hypotenuse);
+
+        double j = Math.atan(0/23);
+
         double k = theta2-j;
-        AngleShoulder = (90-k);
+
+        AngleShoulder = ((Math.PI/2)-k);
+        
         //convert angle to radians
         angles[0] = new Rotation2d(AngleShoulder);
         angles[1] = new Rotation2d(AngleJoint);
@@ -98,27 +112,32 @@ public class ArmSubsystem extends SubsystemBase{
         EncoderJoint.setPosition(0);
         EncoderShoulder.setPosition(0);
     }
-    public void setPoint(boolean intake, boolean low, boolean medium, boolean high){
-        if (intake == true){
-            goal[0] = Constants.Swerve.INTAKE[0];
-            goal[1] = Constants.Swerve.INTAKE[1];
+
+    public void setPoint(boolean intake, boolean low, boolean medium, boolean high, boolean retract){
+        if (intake){
+            goal[0] = arm.INTAKE[0];
+            goal[1] = arm.INTAKE[1];
         }
-        else if (low == true){
-            goal[0] = Constants.Swerve.LOWGOAL[0];
-            goal[1] = Constants.Swerve.LOWGOAL[1];
+        else if (low){
+            goal[0] = arm.LOWGOAL[0];
+            goal[1] = arm.LOWGOAL[1];
         }
-        else if (medium == true){
-            goal[0] = Constants.Swerve.MIDGOAL[0];
-            goal[1] = Constants.Swerve.MIDGOAL[1];
+        else if (medium){
+            goal[0] = arm.MIDGOAL[0];
+            goal[1] = arm.MIDGOAL[1];
         }
-        else if (high == true){
-            goal[0] = Constants.Swerve.HIGHGOAL[0];
-            goal[1] = Constants.Swerve.HIGHGOAL[1];
-        }
-        else{
+        else if (high){
+            goal[0] = arm.HIGHGOAL[0];
+            goal[1] = arm.HIGHGOAL[1];
             
         }
+        else if (retract){
+            goal[0] = arm.RETRACTED[0];
+            goal[1] = arm.RETRACTED[1];
+        }
+
     }
+
     public void periodic(){
         double joi = EncoderJoint.getPosition() * Math.PI;
         double sho = EncoderShoulder.getPosition() * Math.PI;
