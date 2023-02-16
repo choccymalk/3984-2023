@@ -145,18 +145,27 @@ public final class Constants {
         public static final SwerveModuleConstants constants =
             new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
-        public static final class armShoulder {
-        public static final int rotMotorID = 9; 
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0); //TODO
+        public static final class arm {
+
+            public static final class Shoulder {
+                public static final double Length = 34;
+                public static final int rotMotorID = 9; 
+                public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0); //TODO
+            }
+            public static final class Joint {
+                public static final double Length = 23.5;
+                public static final int rotMotorID = 10;
+                public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0); //TODO
+            }
+            public static final double[] LOWGOAL = new double[]{0, 0}; //TODO
+            public static final double[] INTAKE = new double[]{1, -1}; //TODO
+            public static final double[] MIDGOAL = new double[]{1, -1}; //TODO
+            public static final double[] HIGHGOAL = new double[]{1, -1}; //TODO
+            public static final double[] RETRACTED = new double[]{Shoulder.Length * Math.cos(0) + Joint.Length * Math.cos(0), 
+                                                                    Shoulder.Length * Math.sin(0) + Joint.Length*Math.sin(0)};
+            
         }
-        public static final class armJoint {
-            public static final int rotMotorID = 10;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0); //TODO
-        }
-        public static final double[] LOWGOAL = new double[]{23, 0}; //TODO
-        public static final double[] INTAKE = new double[]{1, -1}; //TODO
-        public static final double[] MIDGOAL = new double[]{1, -1}; //TODO
-        public static final double[] HIGHGOAL = new double[]{1, -1}; //TODO
+
 
     }
 

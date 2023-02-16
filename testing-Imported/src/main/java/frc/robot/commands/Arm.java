@@ -14,19 +14,34 @@ public class Arm extends CommandBase{
     private BooleanSupplier Low;
     private BooleanSupplier Medium;
     private BooleanSupplier High;
+    private BooleanSupplier Retract;
     //Constructor for command
-    public Arm (ArmSubsystem Armm, BooleanSupplier Intake, BooleanSupplier Low, BooleanSupplier Medium, BooleanSupplier High){
+    public Arm (ArmSubsystem Armm, BooleanSupplier Intake, BooleanSupplier Low, 
+                BooleanSupplier Medium, BooleanSupplier High, BooleanSupplier Retract){
         this.Armm = Armm;
         addRequirements(Armm);
         this.Intake = Intake;
         this.Low = Low;
         this.Medium = Medium;
         this.High = High;
+        this.Retract = Retract;
 
     }
     public void execute(){
-        Armm.setPoint(Intake.getAsBoolean(), Low.getAsBoolean(), Medium.getAsBoolean(), High.getAsBoolean());
-        Armm.moveToAngle();
+        Armm.setPoint(Intake.getAsBoolean(),
+                    Low.getAsBoolean(), 
+                    Medium.getAsBoolean(), 
+                    High.getAsBoolean(), 
+                    Retract.getAsBoolean());
+
+        if (Intake.getAsBoolean() ||
+            Low.getAsBoolean()    || 
+            Medium.getAsBoolean() || 
+            High.getAsBoolean()   || 
+            Retract.getAsBoolean())
+        {
+            Armm.moveToAngle();
+        }
     }
 
 }
