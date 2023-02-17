@@ -65,7 +65,7 @@ public class ArmSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("Angle Goal Shoulder", angle);
         
         SmartDashboard.putNumberArray("GoalPoint: ", goal);
-        while (!goToAngleJoint.atSetpoint() && !goToAngleShoulder.atSetpoint()){
+        if (!goToAngleJoint.atSetpoint() && !goToAngleShoulder.atSetpoint()){
             shoulderMotor.setVoltage((goToAngleShoulder.calculate(EncoderShoulder.getPosition() * Math.PI - arm.Shoulder.angleOffset.getRadians()) 
                                     + Shoulderff.calculate(EncoderShoulder.getPosition() * Math.PI - arm.Shoulder.angleOffset.getRadians()
                                     , EncoderShoulder.getVelocity()))*.12);
@@ -139,8 +139,8 @@ public class ArmSubsystem extends SubsystemBase{
     }
 
     public void periodic(){
-        double joi = EncoderJoint.getPosition() * Math.PI;
-        double sho = EncoderShoulder.getPosition() * Math.PI;
+        double joi = EncoderJoint.getPosition() * 2*Math.PI;
+        double sho = EncoderShoulder.getPosition() * 2*Math.PI;
         SmartDashboard.putNumber("ShoulderMotor", sho);
         SmartDashboard.putNumber("Joint", joi);
         Rotation2d[] angles = this.getAngles(goal[0], goal[1]);

@@ -56,9 +56,9 @@ public final class Constants {
         public static final double sarmKG = 0.0;
         public static final double sarmKV = 0.00;
         public static final double sarmKA = 0.0;
-        public static final double sarmKP = 0.001;
-        public static final double sarmKI = 0.000;
-        public static final double sarmKD = 0.000;
+        public static final double sarmKP = 10;
+        public static final double sarmKI = 5;
+        public static final double sarmKD = 2.5;
         public static final double sarmKFF = 0;
 
         public static final double jarmKP = 0.01;
@@ -74,8 +74,8 @@ public final class Constants {
 
         /* Drive Motor PID Values */
         public static final double driveKP = 0.05;
-        public static final double driveKI = 0.0;
-        public static final double driveKD = 0.0;
+        public static final double driveKI = 0;
+        public static final double driveKD = 0;
         public static final double driveKFF = 0.0;
 
         /* Drive Motor Characterization Values */
