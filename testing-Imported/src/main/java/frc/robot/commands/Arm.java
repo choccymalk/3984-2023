@@ -42,6 +42,9 @@ public class Arm extends CommandBase{
         {
             Armm.moveToAngle();
         }
+        else{
+            Armm.stop();
+        }
     }
 
 }

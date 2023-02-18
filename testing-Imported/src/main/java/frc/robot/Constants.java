@@ -52,13 +52,13 @@ public final class Constants {
         public static final int angleContinuousCurrentLimit = 20;
         public static final int driveContinuousCurrentLimit = 80;
         /* TODO Arm Motor PID Values */
-        public static final double sarmKS = 0.0;
-        public static final double sarmKG = 0.0;
-        public static final double sarmKV = 0.00;
-        public static final double sarmKA = 0.0;
-        public static final double sarmKP = 10;
-        public static final double sarmKI = 5;
-        public static final double sarmKD = 2.5;
+        public static final double sarmKS = 1;
+        public static final double sarmKG = 1.0;
+        public static final double sarmKV = 1.95;
+        public static final double sarmKA = 0.06;
+        public static final double sarmKP = 5;
+        public static final double sarmKI = 0;
+        public static final double sarmKD = 1;
         public static final double sarmKFF = 0;
 
         public static final double jarmKP = 0.01;
@@ -160,9 +160,8 @@ public final class Constants {
             public static final double[] LOWGOAL = new double[]{0, 0}; //TODO
             public static final double[] INTAKE = new double[]{1, -1}; //TODO
             public static final double[] MIDGOAL = new double[]{1, -1}; //TODO
-            public static final double[] HIGHGOAL = new double[]{1, -1}; //TODO
-            public static final double[] RETRACTED = new double[]{Shoulder.Length * Math.cos(0) + Joint.Length * Math.cos(0), 
-                                                                    Shoulder.Length * Math.sin(0) + Joint.Length*Math.sin(0)};
+            public static final double[] HIGHGOAL = new double[]{27, 0}; //TODO
+            public static final double[] RETRACTED = new double[]{0, 0};
             
         }
 
