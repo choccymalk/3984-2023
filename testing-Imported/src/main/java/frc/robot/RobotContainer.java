@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.Swerve.arm;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -27,6 +28,9 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Swerve s_Swerve = new Swerve();
+  private final ArmSubsystem Armm = new ArmSubsystem();
+
   private final Joystick driver = new Joystick(1);
   //private final SingleJointedArmSim armM = new Single
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
@@ -39,8 +43,7 @@ public class RobotContainer {
     new JoystickButton(driver, XboxController.Button.kY.value);
   private final JoystickButton robotCentric =
     new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-  private final Swerve s_Swerve = new Swerve();
-  private final ArmSubsystem Armm = new ArmSubsystem();
+
   private final JoystickButton Intake = new JoystickButton(driver, XboxController.Button.kA.value);
   private final JoystickButton Low = new JoystickButton(driver, XboxController.Button.kB.value);
   private final JoystickButton Medium = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
@@ -56,14 +59,6 @@ public class RobotContainer {
         () -> -driver.getRawAxis(strafeAxis),
         () -> -driver.getRawAxis(rotationAxis),
         () -> robotCentric.getAsBoolean()));
-    Armm.setDefaultCommand(
-      new Arm(
-        Armm, 
-        () -> Intake.getAsBoolean(), 
-        () -> Low.getAsBoolean(), 
-        () -> Medium.getAsBoolean(), 
-        () -> High.getAsBoolean(),
-        () -> Retract.getAsBoolean()));
         
     // Configure the button bindings
     configureButtonBindings();
@@ -78,8 +73,18 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //zeroGyro.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
+    //zeros gyro
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-
+    // Puts arm on intake pos
+    Intake.onTrue(Armm.moveTo(arm.INTAKE[0], arm.INTAKE[1]));
+    // Puts arm on lowgoal pos
+    Low.onTrue(Armm.moveTo(arm.LOWGOAL[0], arm.LOWGOAL[1]));
+    // Puts arm on midgoal pos
+    Medium.onTrue(Armm.moveTo(arm.MIDGOAL[0], arm.MIDGOAL[1]));
+    // Puts arm on highgoal pos
+    High.onTrue(Armm.moveTo(arm.HIGHGOAL[0], arm.HIGHGOAL[1]));
+    // Puts arm on retract pos
+    Retract.onTrue(Armm.moveTo(arm.RETRACTED[0], arm.RETRACTED[1]));
   }
 
   /**
@@ -90,5 +95,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return new exampleAuto(s_Swerve);
+    
   }
 }
