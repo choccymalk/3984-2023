@@ -166,7 +166,7 @@ public final class Constants {
             public static final double[] INTAKE = new double[]{1, -1}; //TODO
             public static final double[] MIDGOAL = new double[]{1, -1}; //TODO
             public static final double[] HIGHGOAL = new double[]{27, 0}; //TODO
-            public static final double[] RETRACTED = new double[]{0, 0};
+            public static final double[] RETRACTED = new double[]{0, 0}; //TODO
             
         }
 
