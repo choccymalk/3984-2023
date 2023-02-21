@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.ADIS16448_IMU;
 //import edu.wpi.first.wpilibj.SPI;
 //import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -89,16 +88,14 @@ public class Swerve extends SubsystemBase {
   }
   public SwerveModulePosition[] getPositions() {
     SwerveModulePosition[] positions = new SwerveModulePosition[4];
-    for (SwerveModule mod : mSwerveMods){ //FIXME Error line, null pointer exception fix me
+    for (SwerveModule mod : mSwerveMods){ 
       positions[mod.moduleNumber] = mod.getPoset();
     }
     return positions;
   }
 
   public void zeroGyro() {
-    //FIXME ?
     gyro.reset();
-    //gyro.setYaw(0);
   }
 
   public Rotation2d getYaw() {
